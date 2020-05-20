@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-#your code here
+# your code here
 
 # "magic code" -- boilerplate
 if __name__ == '__main__':
