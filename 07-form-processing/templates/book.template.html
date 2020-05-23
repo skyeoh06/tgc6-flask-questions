@@ -7,37 +7,38 @@
     <title>Document</title>
 </head>
 <body>
-    <form method="POST">
+    <form method="POST" action="{{url_for('process_booking')}}">
         <div>
             <label>Customer Name</label>
-            <inpt type="text"/>
+            <input type="text" name="customer-name"/>
         </div>
         <div>
-            <label>Sitting Type</label>
-            <input type="radio"/>Indoors
-            <input type="radio"/>Outdoors
-            <input type="radio"/>Smoking
+            <label>Seating Type</label>
+            <input type="radio" name="seating-type" value="indoors" checked/>Indoors
+            <input type="radio" name="seating-type" value="outdoors"/>Outdoors
+            <input type="radio" name="seating-type" value="smoking"/>Smoking
         </div>
         <div>
             <label>Time</label>
-            <input type="radio"/>Morning
-            <input type="radio"/>Afternoon
-            <input type="radio"/>Evening
+            <input type="radio" name="time-period" value="morning" checked/>Morning
+            <input type="radio" name="time-period" value="afternoon"/>Afternoon
+            <input type="radio" name="time-period" value="evening"/>Evening
         </div>
         <div>
             <label>Services</label>
-            <input type="checkbox"/>Wet Napkins
-            <input type="checkbox"/>Free flow drinks
-            <input type="checkbox"/>Baby Seats
+            <input type="checkbox" name="services" value="wet-napkins"/>Wet Napkins
+            <input type="checkbox" name="services" value="free-flor-drink"/>Free flow drinks
+            <input type="checkbox" name="services" value="baby-seats"/>Baby Seats
         </div>
         <div>
             <label>How did you hear about us</label>
-            <select>
-                <option>Word of mouth</option>
-                <option>Social media</option>
-                <option>Reviews</option>
+            <select name="hear-about">
+                <option value="word-of-mouth" selected>Word of mouth</option>
+                <option value="social-media">Social media</option>
+                <option value="reviews">Reviews</option>
             </select>
         </div>
+        <input type="submit" value="Make booking"/>
     </form>
 </body>
 </html>
