@@ -1,0 +1,11 @@
+{% extends 'base.template.html' %}
+
+{%block content%}
+<form method="POST">
+    <div class="form-group">
+        <label>Search for title:</label>
+        <input type="text" class="form-control" name="search-terms">
+    </div>
+    <input type="submit" value="Search"/>
+</form>
+{%endblock%}
