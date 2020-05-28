@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import csv
 app = Flask(__name__)
+FILENAME="books.csv"
 
 
 @app.route('/')
@@ -49,7 +50,7 @@ def process_search_form():
 
 def get_all_books_from_file():
     books = []
-    with open('books.csv', 'r', newline="\n") as fp:
+    with open(FILENAME, 'r', newline="\n") as fp:
         reader = csv.reader(fp, delimiter=",")
 
         # skip the header
@@ -80,7 +81,7 @@ def process_add():
     # step 2 - process the data
 
     # step 2.1 : open the file
-    with open('books.csv', 'a', newline="\n") as fp:
+    with open(FILENAME, 'a', newline="\n") as fp:
         # step 2.2: add in new row in
 
         # step 2.3 create the csv writer
@@ -122,7 +123,58 @@ def process_edit_book(isbn):
 
     # step 4: write all books into data.csv
     # overwriting the csv file with the modified book information
-    with open('books.csv', 'w', newline="\n") as fp:
+    with open(FILENAME, 'w', newline="\n") as fp:
+        writer = csv.writer(fp, delimiter=",")
+        writer.writerow(['isbn', 'title', 'author'])
+        for b in books:
+            writer.writerow([
+                b['isbn'],
+                b['title'],
+                b['author']
+            ])
+
+    return redirect(url_for('show_books'))
+
+
+@app.route('/delete_book/<isbn>')
+def delete_book(isbn):
+    book = None
+    with open(FILENAME, 'r', newline="\n") as fp:
+        reader = csv.reader(fp, delimiter=",")
+        for b in reader:
+            if b[0] == isbn:
+                book = {
+                    'isbn': b[0],
+                    'title': b[1],
+                    'author': b[2]
+                }
+                break
+
+    return render_template('confirm_delete.template.html', book=book)
+
+
+@app.route('/delete_book/<isbn>', methods=['POST'])
+def process_delete_book(isbn):
+    # step 1: get all the books
+    books = get_all_books_from_file()
+
+    index_to_delete = -1
+    # step 2: find the index of the book I want to delete
+    for index, b in enumerate(books):
+
+        if b['isbn'] == isbn:
+            index_to_delete = index
+            break
+
+    print(index_to_delete)
+    # step 3: remove the index from the file
+    del books[index_to_delete]
+
+    print('books before resaving to file:')
+    print(books)
+
+    # step 4: resave the file
+    with open(FILENAME, 'w', newline="\n") as fp:
         writer = csv.writer(fp, delimiter=",")
         writer.writerow(['isbn', 'title', 'author'])
         for b in books:
