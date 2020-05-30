@@ -4,7 +4,9 @@ import os
 app = Flask(__name__)
 
 #your code here
-
+@app.route('/')
+def hello():
+    return "Hello World"
 # "magic code" -- boilerplate
 if __name__ == '__main__':
     app.run(host=os.environ.get('IP'),
